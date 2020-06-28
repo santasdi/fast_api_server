@@ -1,0 +1,21 @@
+.git
+
+# Ignore tests report
+report/*
+
+# Pycharm cache________________________________________________________________
+.idea
+
+# Python cache_________________________________________________________________
+__pycache__/
+*.py[cod]
+
+local_settings.py
+.cache
+
+screenshots/*
+
+.env
+.coverage
+
+logstash.db
