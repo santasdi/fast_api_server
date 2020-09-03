@@ -1,0 +1,106 @@
+main:
+  enable_cors: true
+  static_dir: ./static_dir
+  screenshots_dir: ./screenshots
+  event_screenshots_dir: ./event_screenshots
+
+server:
+  host: 127.0.0.1
+  port: 8090
+  reuse_address: true
+  reuse_port: true
+
+database:
+  host: 192.168.71.57
+  port: 5432
+  user: asmsmk_violations
+  database: asmsmk_violations
+  password: asmsmk_violations123
+
+eis:
+  system_id: violations
+  host: localhost
+  virtualhost: /eis_integration_vhost
+  login: eis_integration
+  password: eis_integration123
+  exchange_name: eis_integration
+  exchange_type: topic
+  queue_name: violations_eis_events
+  send_event_ack_sleep_time: 30  # seconds
+
+expert:
+  host: 192.168.71.64
+  virtualhost: sirenaGirl
+  login: sirenaGirl
+  password: sirenaGirl
+  exchange_name: sirenaGirl_exchange
+  exchange_type: topic
+  routing_key: expert_review
+  queue_name: expertGirl_sirenaGirl
+
+
+
+sources_host: 192.168.71.57
+sources_port: 8015
+
+ekun_host: 192.168.71.64
+ekun_port: 80
+
+source_assignments_host: 192.168.71.57
+source_assignments_port: 8016
+
+auth_service_host: 192.168.71.90
+auth_service_port: 8004
+
+redis:
+  host: 127.0.0.1
+
+sso:
+  # Путь до публичного RSA - ключа Keycloak
+  pub_key_path: ./conf/keycloak.rsa
+  # Имя клиента в Keycloak
+  audience: sources
+
+
+telegram:
+  bot_token: some_token
+  chat_id: some_id
+
+
+logging:
+  version: 1
+  formatters:
+    logstash:
+      message_type: asmsmk_violations_test
+      (): logstash_async.formatter.LogstashFormatter
+  handlers:
+    console:
+      level: DEBUG
+      class: logging.StreamHandler
+    logstash:
+      level: DEBUG
+      class: logstash_async.handler.AsynchronousLogstashHandler
+      formatter: logstash
+      host: 192.168.70.66
+      port: 10530
+      database_path: ./logstash.db
+      transport: logstash_async.transport.UdpTransport
+    syslog:
+      class: logging.handlers.SysLogHandler
+      address: /dev/log
+  loggers:
+    root:
+      handlers: []
+      level: DEBUG
+    violations:
+      handlers: []
+      level: DEBUG
+    eis_success:
+      handlers: []
+      level: DEBUG
+    eis_error:
+      handlers: []
+      level: DEBUG
+    loggers:
+      handlers: []
+      level: DEBUG

@@ -15,7 +15,7 @@ local_settings.py
 
 screenshots/*
 
-.env
+conf/.env
 .coverage
 
 logstash.db
